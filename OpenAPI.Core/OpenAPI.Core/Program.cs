@@ -1,9 +1,12 @@
 using MassTransit;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using OpenAPI.Core;
+using OpenAPI.Core.CommandHandlers;
 using OpenAPI.Core.Data;
 using OpenAPI.Core.IntegrationEventHandlers;
+using OpenAPI.Core.Services;
 using SharedKernel;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +29,10 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddScoped<IIntegrationEventService, IntegrationEventService>();
 builder.Services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
+builder.Services.AddSingleton<ServiceA>();
+builder.Services.AddSingleton<ServiceB>();
+builder.Services.AddSingleton<IProcessingServiceFactory, ProcessingServiceFactory>();
+builder.Services.AddMediatR(typeof(ProcessPaymentCommandHandler).Assembly);
 
 
 builder.Services.AddMassTransit(configuration =>

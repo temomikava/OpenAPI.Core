@@ -1,5 +1,7 @@
 ﻿using IntegrationEvents;
 using MassTransit;
+using MediatR;
+using OpenAPI.Core.Commands;
 using OpenAPI.Core.Data;
 using SharedKernel;
 
@@ -9,11 +11,13 @@ namespace OpenAPI.Core.IntegrationEventHandlers
     {
         private readonly ILogger<OrderPorcessingIntegrationEventHandler> logger;
         private readonly IRepository<Payment, int> repository;
+        private readonly IMediator mediator;
 
-        public OrderPorcessingIntegrationEventHandler(ILogger<OrderPorcessingIntegrationEventHandler> logger, IRepository<Payment,int> repository)
+        public OrderPorcessingIntegrationEventHandler(ILogger<OrderPorcessingIntegrationEventHandler> logger, IRepository<Payment,int> repository, IMediator mediator)
         {
             this.logger = logger;
             this.repository = repository;
+            this.mediator = mediator;
         }
         public async Task Consume(ConsumeContext<OrderProcessingIntegrationEvent> context)
         {
@@ -28,6 +32,7 @@ namespace OpenAPI.Core.IntegrationEventHandlers
                 ExpiryDate = message.ExpiryDate
             };
             await repository.CreateAsync(payment);
+            await mediator.Send(new ProcessPaymentCommand(payment));
             logger.LogInformation($"Event Consumed Successfully {DateTimeOffset.UtcNow}");
         }
     }
