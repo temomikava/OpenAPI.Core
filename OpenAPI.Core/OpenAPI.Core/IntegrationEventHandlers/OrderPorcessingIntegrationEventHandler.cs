@@ -28,7 +28,7 @@ namespace OpenAPI.Core.IntegrationEventHandlers
                 ExpiryDate = message.ExpiryDate
             };
             await repository.CreateAsync(payment);
-            logger.LogInformation($"Event Consumed Successfully");
+            logger.LogInformation($"Event Consumed Successfully {DateTimeOffset.UtcNow}");
         }
     }
 }
