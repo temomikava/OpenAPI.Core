@@ -4,7 +4,7 @@
       context: .
       dockerfile: Dockerfile
     ports:
-      - "5002:80"
+      - "5004:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=OpenApi.Core;Username=tmikava;Password=Npottwyctd12
