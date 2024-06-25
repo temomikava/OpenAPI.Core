@@ -1,7 +1,9 @@
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using OpenAPI.Core;
 using OpenAPI.Core.Data;
+using OpenAPI.Core.IntegrationEventHandlers;
 using SharedKernel;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +32,7 @@ builder.Services.AddMassTransit(configuration =>
 {
     configuration.UsingRabbitMq((context, cfg) =>
     {
+        configuration.AddConsumers(typeof(OrderCreatedIntegrationEventHandler).Assembly);
         cfg.Host("rabbitmq", "/", h =>
         {
             h.Username("tmikava");
@@ -53,5 +56,9 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+await using (var scope = app.Services.CreateAsyncScope())
+{
+    await scope.ServiceProvider.GetRequiredService<ApplicationDbContext>().Database.MigrateAsync();
+}
 
 app.Run();
