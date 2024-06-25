@@ -9,6 +9,6 @@ namespace SharedKernel
 {
     public interface IProcessingService
     {
-        void Process(Payment payment);
+        Task<bool> ProcessAsync(Payment payment);
     }
 }

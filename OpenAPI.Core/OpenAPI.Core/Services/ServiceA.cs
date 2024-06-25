@@ -13,9 +13,14 @@ namespace OpenAPI.Core.Services
             this.logger = logger;
         }
 
-        public void Process(Payment payment)
+        public async Task<bool> ProcessAsync(Payment payment)
         {
-            logger.LogInformation($"Processed in ServiceA: {payment.CardNumber}");
+            await Task.Delay(3000);
+            var random = new Random();
+            var status = random.Next(2) == 0 ? true : false;
+            var statusString = status ? "Completed" : "Rejected";
+            logger.LogInformation($"Processed in ServiceA: {payment.CardNumber}, status : {statusString}");
+            return status;
         }
     }
 }

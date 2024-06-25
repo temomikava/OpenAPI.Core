@@ -5,5 +5,6 @@ namespace SharedKernel
     {
         Task<TEntity> CreateAsync(TEntity entity);
         Task<TEntity?> GetByIdAsync(TId id);
+        Task UpdateAsync(TEntity entity);
     }
 }

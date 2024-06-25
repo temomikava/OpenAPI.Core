@@ -24,5 +24,11 @@ namespace OpenAPI.Core.Data
         {
             return await _context.Set<TEntity>().FindAsync(id);
         }
+
+        public async Task UpdateAsync(TEntity entity)
+        {
+            _context.Set<TEntity>().Update(entity);
+            await _context.SaveChangesAsync();
+        }
     }
 }

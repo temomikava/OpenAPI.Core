@@ -29,6 +29,7 @@ namespace OpenAPI.Core.IntegrationEventHandlers
                 CardNumber = message.CardNumber,
                 CompanyName = message.CompanyName,
                 Currency = message.Currency,
+                Status = PaymentStatus.Processing,
                 ExpiryDate = message.ExpiryDate
             };
             await repository.CreateAsync(payment);
