@@ -30,7 +30,7 @@ builder.Services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
 
 builder.Services.AddMassTransit(configuration =>
 {
-    configuration.AddConsumers(typeof(OrderCreatedIntegrationEventHandler).Assembly);
+    configuration.AddConsumers(typeof(OrderPorcessingIntegrationEventHandler).Assembly);
     configuration.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host("rabbitmq", "/", h =>
