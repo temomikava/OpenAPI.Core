@@ -1,0 +1,21 @@
+﻿services:
+  coreapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5002:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=OpenApi.Core;Username=tmikava;Password=Npottwyctd12
+      - RabbitMq__Hostname=rabbitmq
+      - RabbitMq__Port=5672
+      - RabbitMq__UserName=tmikava
+      - RabbitMq__Password=Npottwyctd12
+
+networks:
+  app-network:
+    external: true
+
+
+
